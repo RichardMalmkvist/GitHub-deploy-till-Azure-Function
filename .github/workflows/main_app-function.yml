@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: .
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   NODE_VERSION: '22'
 
 jobs:
@@ -26,7 +26,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Zip function app
-        run: zip -r release.zip .
+        run: |
+          zip -r release.zip .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
