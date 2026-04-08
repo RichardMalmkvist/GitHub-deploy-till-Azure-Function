@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: .
   NODE_VERSION: '22'
 
 jobs:
@@ -17,19 +17,18 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Create deployment package
-        run: |
-          zip -r release.zip .
+      - name: Zip function app
+        run: zip -r release.zip .
 
-      - name: Upload build artifact
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: functionapp
@@ -43,12 +42,12 @@ jobs:
       contents: read
 
     steps:
-      - name: Download build artifact
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: functionapp
 
-      - name: Login to Azure
+      - name: Azure login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_XXXX }}
